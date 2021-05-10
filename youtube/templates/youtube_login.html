@@ -1,0 +1,28 @@
+{% extends "youtube_layout.html" %}
+{% block title %}Youtube- Login{% endblock %}
+{% block body %}
+
+<div class="container" style="padding-left: 15%; padding-right: 15%;">
+    <h1 class="text-center mt-4"><b><u>Login</u></b></h1>
+    <form action="/sign-in" method="post">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="email" placeholder="youtube@gmail.com" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="mb-3">
+            <a href="#forgetpassword">Forget Password?</a>
+        </div>
+        <div class="mb-3">
+            Need an account? <a href="/sign-up">Sign up now</a>
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success" style="width: 100%; font-weight: 500;">Login</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

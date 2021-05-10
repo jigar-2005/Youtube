@@ -1,0 +1,221 @@
+{% extends "youtube_layout.html" %}
+{% block title %}Youtube- Homepage{% endblock %}
+{% block body %}
+
+<style>
+    .homepage {
+        overflow: hidden;
+    }
+
+    .left_menu_1:hover {
+        background: rgb(240, 240, 240);
+    }
+
+    .left_sidebar_after_lg {
+        display: none;
+    }
+
+    @media (max-width: 1400px) {
+        .left_sidebar_before_lg {
+            display: none;
+        }
+
+        .left_sidebar_after_lg {
+            display: block;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .left_sidebar {
+            display: none;
+        }
+    }
+
+    @media (min-width: 1400px) {
+        .scrollbox_left:hover {
+            overflow-y: scroll;
+            height: 860px;
+        }
+    }
+
+    .scrollbox {
+        overflow-y: scroll;
+        height: 860px;
+    }
+</style>
+<div class="homepage">
+    <div class="row">
+        <div class="col-md-2 left_sidebar">
+            <div class="left_sidebar_before_lg" style="position: fixed; width: 16%;">
+                <div class="scrollbox_left">
+                    <a href="/"
+                        style="text-decoration: none; color: black; border-radius: 10px; display: block; background: rgb(204, 204, 204);"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Home">&nbsp;&nbsp;<span style="padding-left: 10px;"><i
+                                class="fa fa-home" style="font-size: 24px;"></i>&emsp; Home</span> </a>
+                    <a href="#explore" style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Explore">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-compass" style="font-size: 24px;"></i>&emsp;
+                            Explore</span> </a>
+                    <a href="#subscription"
+                        style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Subscriptions">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-youtube-play"
+                                style="font-size: 24px;"></i>&emsp;
+                            Subscriptions</span> </a>
+                    <hr>
+                    <a href="#library" style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Library">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-caret-square-o-right"
+                                style="font-size: 24px;"></i>&emsp; Library</span>
+                    </a>
+                    <a href="#history" style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="History">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-clock-o" style="font-size: 24px;"></i>&emsp;
+                            History</span> </a>
+                    {% if current_user.is_authenticated %}
+                    <a href="#mychannel"
+                        style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Your Videos">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-caret-square-o-right"
+                                style="font-size: 24px;"></i>&emsp; Your
+                            Videos</span>
+                    </a>
+                    <a href="#watchlater"
+                        style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Watch Later">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-clock-o" style="font-size: 24px;"></i>&emsp;
+                            Watch Later</span> </a>
+                    <a href="#likedvideo"
+                        style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Liked Videos">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-thumbs-up" style="font-size: 24px;"></i>&emsp;
+                            Liked Videos</span> </a>
+                    <hr>
+                    <h6 style="color: gray; padding-left: 25px;">SUBSCRIPTIONS</h6>
+                    {% for subscriber_exists in subscriber_exists %}
+                    <a href="/channel/{{subscriber_exists.id}}"
+                        style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="{{subscriber_exists.Channel_name}}">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><img
+                                src="/static/profile_image/{{subscriber_exists.profile_image}}" width="35" height="35"
+                                style="border-radius: 100%;" alt="#">&emsp;
+                            {{subscriber_exists.Channel_name[:20]+'...'}}</span>
+                    </a>
+                    {% endfor %}
+                    {% if subscriber_exists|length >= 5 %}
+                    <a href="#seemore" style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="See more">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-angle-down" style="font-size: 24px;"></i>&emsp;
+                            See more</span> </a>
+                    {% endif %}
+                    {% endif %}
+                    <hr>
+                    <h6 style="color: gray; padding-left: 25px;">More From Youtube</h6>
+                    <a href="#premium" style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Youtube Premium">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-youtube-play"
+                                style="font-size: 24px;"></i>&emsp;
+                            Youtube Premium</span>
+                    </a>
+                    <a href="#film" style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Film">&nbsp;&nbsp;<span style="padding-left: 10px;"><i
+                                class="fa fa-film" style="font-size: 24px;"></i>&emsp; Film</span> </a>
+                    <a href="#news" style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Game">&nbsp;&nbsp;<span style="padding-left: 10px;"><i
+                                class="fa fa-newspaper-o" style="font-size: 24px;"></i>&emsp; News</span> </a>
+                    <a href="#fashion" style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Fashion">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-female" style="font-size: 24px;"></i>&emsp;
+                            Fashion</span> </a>
+                    <a href="#learning"
+                        style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Learning">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-lightbulb-o" style="font-size: 24px;"></i>&emsp;
+                            Learning</span> </a>
+                    <a href="#sport" style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Sport">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-trophy" style="font-size: 24px;"></i>&emsp;
+                            Sport</span> </a>
+                    <hr>
+                    <a href="#setting" style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Setting">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-gear" style="font-size: 24px;"></i>&emsp;
+                            Setting</span> </a>
+                    <a href="#report_history"
+                        style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Report History">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-flag" style="font-size: 24px;"></i>&emsp; Report
+                            History</span> </a>
+                    <a href="#help" style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Help">&nbsp;&nbsp;<span style="padding-left: 10px;"><i
+                                class="fa fa-question-circle" style="font-size: 24px;"></i>&emsp; Help</span> </a>
+                    <a href="#send_feedback"
+                        style="text-decoration: none; color: black; border-radius: 10px; display: block;"
+                        class="left_menu_1 pt-2 pb-2 px-2" title="Send Feedback">&nbsp;&nbsp;<span
+                            style="padding-left: 10px;"><i class="fa fa-envelope-o" style="font-size: 24px;"></i>&emsp;
+                            Send Feedback</span> </a>
+                    <hr>
+                    <h6 style="font-size: 15px; padding-left: 30px; color: gray;">
+                        About Press Copyright Contact us Creator Advertise Developers
+                    </h6>
+                    <h6 style="font-size: 15px; padding-left: 30px; color: gray;">
+                        Terms Privacy Policy & Safety How YouTube works Test new features
+                    </h6>
+                    <p style="padding-left: 30px; color: gray;">© 2021 Google LLC</p>
+                </div>
+            </div>
+
+            <div class="left_sidebar_after_lg text-center" style="position: fixed; width: 16%;">
+                <a href="/"
+                    style="text-decoration: none; color: black; border-radius: 10px; font-size: 15px; display: block; background: rgb(204, 204, 204);"
+                    class="left_menu_1">&nbsp;&nbsp;<span><i class="fa fa-home" style="font-size: 24px;"></i>&emsp;<br>
+                        Home</span> </a>
+                <a href="#explore"
+                    style="text-decoration: none; color: black; border-radius: 10px; font-size: 15px; display: block;"
+                    class="left_menu_1 pt-2 pb-2 px-2">&nbsp;&nbsp;<span><i class="fa fa-compass"
+                            style="font-size: 24px;"></i>&emsp;<br> Explore</span> </a>
+                <a href="#subscription"
+                    style="text-decoration: none; color: black; border-radius: 10px; font-size: 15px; display: block;"
+                    class="left_menu_1 pt-2 pb-2 px-2">&nbsp;&nbsp;<span><i class="fa fa-youtube-play"
+                            style="font-size: 24px;"></i>&emsp;<br> Subscriptions</span> </a>
+                <a href="#library"
+                    style="text-decoration: none; color: black; border-radius: 10px; font-size: 15px; display: block;"
+                    class="left_menu_1 pt-2 pb-2 px-2">&nbsp;&nbsp;<span><i class="fa fa-caret-square-o-right"
+                            style="font-size: 24px;"></i>&emsp;<br> Library</span> </a>
+            </div>
+        </div>
+        <div class="col-12 col-md-10 right_side">
+            <div class="scrollbox" style="background-color: rgb(246, 246, 246);">
+                <div class="container">
+                    <div class="row" style="margin-bottom: 80px;">
+                        {% for videos in videos %}
+                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 mt-3">
+                            <a style="text-decoration: none;" href="/single_video/{{videos.id}}"><video id="my-video"
+                                    style="width: 100%;" class="video-js" preload="auto"
+                                    poster="static/video_thumbnail/{{videos.video_thumbnail}}" data-setup="{}">
+                                    <source src="static/video_upload/{{videos.video_url}}" type="video/mp4" />
+                                </video>
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img src="static/profile_image/{{videos.creator.profile_image}}" alt="#"
+                                            style="width: 40px; height: 40px; border-radius: 100%;">
+                                    </div>
+                                    <div class="col-10">
+                                        <p style="color: #000;">{{videos.video_title}}</p>
+                                        <p title="{{videos.creator.Channel_name}}"
+                                            style="font-size: 15px; margin-top: -18px; color: rgb(66, 66, 66);">
+                                            {{videos.creator.Channel_name}}</p>
+                                        <p style="font-size: 15px; margin-top: -18px; color: rgb(66, 66, 66);">
+                                            {{videos.upload_date.strftime('%Y-%m-%d')}}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

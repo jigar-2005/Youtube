@@ -1,0 +1,43 @@
+{% extends "youtube_layout.html" %}
+{% block title %}Youtube- Video Upload{% endblock %}
+{% block body %}
+
+<div class="container" style="padding-left: 15%; padding-right: 15%;">
+    <h1 class="text-center mt-4"><b><u>Video Detail</u></b></h1>
+    <form action="/upload_video" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="video_url" class="form-label">Video URL</label>
+            <input class="form-control" type="file" id="video_url" name="video_url" required>
+        </div>
+        <div class="mb-3">
+            <label for="video_title" class="form-label">Video Title</label>
+            <textarea class="form-control" type="file" id="video_title" name="video_title" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="video_description" class="form-label">Video Description</label>
+            <textarea class="form-control" type="file" id="video_description" name="video_description"
+                required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="video_category" class="form-label">Video Category</label>
+            <select class="form-select" aria-label="Default select example" id="video_category" name="video_category"
+                required>
+                <option value="">Select Category</option>
+                <option value="Film">Film</option>
+                <option value="News">News</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Learning">Learning</option>
+                <option value="Sport">Sport(Game)</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="video_thumbnail" class="form-label">Video Thumbnail</label>
+            <input class="form-control" type="file" id="video_thumbnail" name="video_thumbnail" required>
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success" style="width: 100%; font-weight: 500;">Submit Detail</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

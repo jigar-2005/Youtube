@@ -1,0 +1,228 @@
+{% extends "youtube_layout.html" %}
+{% block title %}Youtube- {{single_video.video_title}}{% endblock %}
+{% block body %}
+<style>
+    .single_video_page {
+        overflow-y: scroll;
+        height: 840px;
+        overflow-x: hidden;
+    }
+
+    .video-js {
+        background: white;
+    }
+
+    .video-js.main_video {
+        background: black;
+    }
+
+    .video-js .vjs-big-play-button {
+        background-color: rgba(255, 102, 0, 0.7);
+    }
+
+    .video-js:hover .vjs-big-play-button {
+        background-color: rgba(255, 102, 0, 0.7);
+    }
+
+    @media (max-width: 1200px) {
+        .related_video_upload_date {
+            display: none;
+        }
+
+        .related_video_title {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .comment {
+            display: none;
+        }
+
+        .related_video_upload_date {
+            display: block;
+        }
+
+        .related_video_title {
+            display: block;
+        }
+    }
+
+    @media (max-width: 610px) {
+        .views_and_date {
+            display: none;
+        }
+    }
+
+    @media (min-width: 610px) {
+        .like_dislike_share_btn_data {
+            float: right;
+        }
+    }
+
+    @media (min-width: 1600px) {
+        .set_container {
+            padding-left: 7%;
+            padding-right: 7%;
+        }
+    }
+
+    @media (max-width: 1600px) {
+        .set_container {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .vdo_desc {
+            margin-left: 13%;
+            width: 88.5%;
+        }
+    }
+</style>
+<div class="mt-4 set_container single_video_page">
+    <div class="row">
+        <div class="col-lg-8">
+            <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered main_video" controls autoplay
+                preload="auto" poster="static/video_thumbnail/{{single_video.video_thumbnail}}" data-setup="{}"
+                style="width: 100%; max-height: 700px;">
+                <source src="{{ url_for('static', filename=single_video_url+single_video.video_url) }}"
+                    type="video/mp4" />
+            </video>
+            <br>
+            <br>
+            <div class="title" style="font-size: 20px;">
+                {{single_video.video_title}}
+            </div>
+            <div class="row">
+                <div class="col views_and_date">
+                    <div class="views_and_date_data mt-2" style="font-size: 14px; color: grey;">
+                        {{single_video.views}} views • {{single_video.upload_date.strftime('%d-%m-%Y')}}
+                    </div>
+                </div>
+                {% if current_user.is_authenticated %}
+                <div class="col like_dislike_share_btn">
+                    <div class="like_dislike_share_btn_data" style="font-size: 24px; color: grey;">
+                        <a href="/like{{single_video.id}}" style="color: gray;
+                        {% if like_exists.video_id == single_video.id %}
+                        color: blue;
+                        {% endif %}"><i class="fa fa-thumbs-up"><span style="font-size: 15px;"><b>
+                                        19K</b>&emsp;</span></i></a>
+                        <a href="/dislike{{single_video.id}}" style="color: gray;
+                        {% if dislike_exists.video_id == single_video.id %}
+                        color: blue;
+                        {% endif %}"><i class="fa fa-thumbs-down"><span style="font-size: 15px;"><b>
+                                        1K</b>&emsp;</span></i></a>
+                        <a href="#share" style="color: gray;"><i class="fa fa-mail-forward"><span
+                                    style="font-size: 18px;"><b> SHARE</b>&emsp;</span></i></a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <br>
+            <hr>
+            <div class="channel_info">
+                <div class="left_side_info">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-3 col-md-2">
+                                    <img src="{{ url_for('static', filename=single_video_creator_profile) }}"
+                                        height="40" width="40" alt="#">
+                                </div>
+                                <div class="col-9 col-md-10">
+                                    <a href="/channel/{{single_video.creator.id}}"
+                                        style="text-decoration: none; color: #000;">
+                                        <p title="{{single_video.creator.Channel_name}}" style="font-size: 15px;"><b>
+                                                {{single_video.creator.Channel_name}}</b></p>
+                                    </a>
+                                    <p style="font-size: 13px; margin-top: -18px; color: rgb(66, 66, 66);">
+                                        {{single_video.creator.subscriber}}
+                                        subscribers</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6" style="text-align: right;">
+                            {% if current_user.is_authenticated %}
+                            {% if single_video.creator.id != current_user.id %}
+                            <form method="POST" action="/subscribe/user_id/{{single_video.creator.id}}">
+                                {% if subscriber_exists %}
+                                <button class="btn btn-success" style="font-weight: 500;">SUBSCRIBED</button>
+                                {% else %}
+                                <button class="btn btn-danger" style="font-weight: 500;">SUBSCRIBE</button>
+                                {% endif %}
+                            </form>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-11 offset-1 vdo_desc">
+                            {{single_video.video_description}}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="comment">
+                        <h5 class="total_comment">{{comment_count}} Comment</h5>
+                        {% if current_user.is_authenticated %}
+                        <div class="row">
+                            <div class="col-2 col-md-1">
+                                <img src="{{ url_for('static', filename=single_video_creator_profile) }}" height="40"
+                                    width="40" alt="#">
+                            </div>
+                            <div class="col-10">
+                                <form method="POST" action="/video/{{single_video.id}}/comment">
+                                    <input name="youtube_comment" type="text" placeholder="Write a comment..."
+                                        aria-describedby="commentHelp" style="width: 100%;">
+                                    <div id="commentHelp" style="color: gray;">Enter to submit comment</div>
+                                </form>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <br>
+                        <div class="row">
+                            {% for comment_show in comment_show %}
+                            <div class="col-2 col-md-1">
+                                <img src="/static/profile_image/{{comment_show.profile_image}}" height="40" width="40"
+                                    alt="#">
+                            </div>
+                            <div class="col-10 col-md-11">
+                                <p style="font-size: 15px;"><b> {{comment_show.Channel_name}} </b>
+                                    {{comment_show.comment_date.strftime("%Y-%m-%d")}}</p>
+                                <p style="font-size: 17px; margin-top: -18px; color: rgb(66, 66, 66);">
+                                    {{comment_show.comment}}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            {% for same_category_videos in same_category_videos %}
+            {% if single_video.id != same_category_videos.id %}
+            <div class="row">
+                <div class="col-5 col-md-4 col-lg-7 col-xl-6">
+                    <a style="text-decoration: none;" href="/single_video/{{same_category_videos.id}}"><video
+                            id="my-video" style="width: 100%; height: 120px;" class="video-js" preload="auto"
+                            poster="/static/video_thumbnail/{{same_category_videos.video_thumbnail}}" data-setup="{}">
+                            <source src="/static/video_upload/{{same_category_videos.video_url}}" type="video/mp4" />
+                        </video>
+                    </a>
+                </div>
+                <div class="col-7 col-md-8 col-lg-5 col-xl-6">
+                    <p style="font-weight: 500; line-height: 15px;">{{same_category_videos.video_title}}</p>
+                    <p class="related_video_title" title="{{same_category_videos.creator.Channel_name}}"
+                        style="font-size: 15px; margin-top: -7px; line-height: 15px;">
+                        <b>{{same_category_videos.creator.Channel_name}}</b>
+                    <p class="related_video_upload_date"
+                        style="font-size: 14px; margin-top: -18px; color: rgb(66, 66, 66);">
+                        {{same_category_videos.views}} views • {{same_category_videos.upload_date.strftime('%Y-%m-%d')}}
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+            {%endfor%}
+        </div>
+    </div>
+</div>
+{% endblock %}

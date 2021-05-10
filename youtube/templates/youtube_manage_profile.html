@@ -1,0 +1,61 @@
+{% extends "youtube_layout.html" %}
+{% block title %}Youtube Manage Account{% endblock %}
+{% block body %}
+<style>
+    @media (min-width: 991px) {
+        .data-contain {
+            padding-left: 15%;
+            padding-right: 15%;
+        }
+    }
+
+    .form_for_update_profile {
+        overflow-y: scroll;
+        height: 820px;
+    }
+</style>
+
+<div class="form_for_update_profile">
+    <div class="container-md data-contain">
+        <h1 class="text-center mt-4 mb-5"><b><u>Account Info</u></b></h1>
+        <div class="text-center"
+            style="background: url('static/cover_image/{{current_user.cover_image}}'); background-repeat: no-repeat; background-attachment: cover; background-size: 100% 75%;">
+            <img src="static/profile_image/{{current_user.profile_image}}" alt="" width="200" height="200"
+                style="margin-top: 22%; border-radius: 100%; border: 5px solid white;">
+        </div>
+        <form method="POST" action="/manage_profile" enctype="multipart/form-data">
+            <div class="form-group row mt-3">
+                <label for="inputprofileimage3" class="col-sm-4 col-form-label"><b>Change profile</b></label>
+                <div class="col-sm-8">
+                    <input type="file" class="form-control" id="inputprofileimage3" name="profile_image_new" value="{{current_channel.profile_image}}">
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <label for="inputcoverimage3" class="col-sm-4 col-form-label"><b>Change Cover image</b></label>
+                <div class="col-sm-8">
+                    <input type="file" class="form-control" id="inputcoverimage3" name="cover_image_new" value="{{current_channel.profile_image}}">
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <label for="inputfirstname3" class="col-sm-4 col-form-label"><b>Channel Name</b></label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="inputchannelname3" placeholder="Channel Name"
+                        name="Channel_name_new" value="{{current_channel.Channel_name}}">
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <label for="inputemail3" class="col-sm-4 col-form-label"><b>Email</b></label>
+                <div class="col-sm-8">
+                    <input type="email" class="form-control" id="inputemail3" placeholder="youtube@gmail.com"
+                        name="email_new" value="{{current_channel.email}}">
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <div class="col-sm-12">
+                    <button type="submit" style="width: 100%;" class="btn btn-primary">Change Details</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

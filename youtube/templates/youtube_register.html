@@ -1,0 +1,31 @@
+{% extends "youtube_layout.html" %}
+{% block title %}Youtube- Signup{% endblock %}
+{% block body %}
+
+<div class="container" style="padding-left: 15%; padding-right: 15%;">
+    <h1 class="text-center mt-4"><b><u>Join Today</u></b></h1>
+    <form action="/sign-up" method="post">
+        <div class="mt-4 mb-3">
+            <label for="Channel_name" class="form-label">Channel Name</label>
+            <input type="text" class="form-control" id="Channel_name" placeholder="Youtube Channel" name="Channel_name"
+                required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="email" placeholder="youtube@gmail.com" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="mb-3">
+            <label for="confirm_password" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success" style="width: 100%; font-weight: 500;">Submit Detail</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
